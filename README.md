@@ -27,11 +27,10 @@ mkdir -p ~/.terraform.d/plugins
 cp terraform-provider-libvirt ~/.terraform.d/plugins/
 ```
 
-## Create a terraform plan
+## Give it a whirl
 
-## Create a cloud-init file
+`terraform init && terraform plan && terraform apply`
 
-## Apply the terraform plan (deploy the VMs)
 
 Using the providing example (modify to suite your needs, including custom image with kubeadm pre-installed)
 
