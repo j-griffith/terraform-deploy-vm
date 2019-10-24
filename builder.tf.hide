@@ -11,7 +11,7 @@ resource "libvirt_pool" "builder" {
 resource "libvirt_volume" "os_image_builder" {
   name = "os_image_builder"
   pool = "builder"
-  source = "http://10.117.253.42:8080/debian-9-openstack-amd64.qcow2"
+  source = "http://11.117.253.42:8080/debian-9-openstack-amd64.qcow2"
 }
 
 resource "libvirt_volume" "disk_builder_resized" {
