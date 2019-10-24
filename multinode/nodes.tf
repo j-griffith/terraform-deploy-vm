@@ -55,6 +55,7 @@ resource "libvirt_domain" "domain" {
   name = "kube-${count.index}"
   memory = "4096"
   vcpu = 4
+  count = 3
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
@@ -85,45 +86,22 @@ resource "libvirt_domain" "domain" {
     autoport    = true
   }
 
-  count = 3
+  #provisioner "remote-exec" {
+  #  inline = [
+  #    "hostnamectl set-hostname ${format(var.hostname_format, count.index)}"
+  #  ]
+    #connection {
+    #  type = "ssh"
+    #  user = "debian"
+    #  host = self.host
+    #}
+    #}
 }
-
-
 
 output "ips" {
   value = libvirt_domain.domain.*.network_interface.0.addresses
 }
 
-# Use CloudInit to add our ssh-keys
-#resource "libvirt_cloudinit_disk" "cloudinit_image" {
-#  name           = "cloudinit_image.iso"
-#  pool = "kube"
-#  user_data = <<EOF
-##cloud-config
-#disable_root: 0
-#ssh_pwauth: 1
-#chpasswd:
-#  list: |
-#    root: password
-#    debian: debian
-#  expire: False
-#users:
-#  - name: root
-#    ssh-authorized-keys:
-#      - ${file("/home/jdg/.ssh/id_rsa.pub")}
-#  - name: debian
-#    ssh-authorized-keys:
-#      - ${file("/home/jdg/.ssh/id_rsa.pub")}
-#    sudo: ['ALL=(ALL) NOPASSWD:ALL']
-#    shell: /bin/bash
-#    groups: wheel
-#growpart:
-#  mode: auto
-#  devices: ['/']
-#EOF
-#}
-
 terraform {
   required_version = ">= 0.12"
 }
-
